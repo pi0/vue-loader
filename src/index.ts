@@ -185,6 +185,11 @@ const loader: webpack.loader.Loader = function(source: string) {
     code += `\nscript.__scopeId = "data-v-${id}"`
   }
 
+  // Attach moduleIdentifier for SSR preload hints generation
+  if (isServer) {
+    code += `\nscript.__moduleIdentifier = "${hash(loaderContext.request)}"`
+  }
+
   if (needsHotReload) {
     code += genHotReloadCode(id, templateRequest)
   }
